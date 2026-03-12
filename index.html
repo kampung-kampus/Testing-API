@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
     <title>My API Project</title>
@@ -13,26 +13,26 @@
     <h1>Daily Dog Dose</h1>
     <button id="dogBtn">Get New Dog</button>
     <div id="dogContainer"></div>
+    
+<!-- 1. Use this IF you have a separate file named script.js 
+<script src="script.js"></script>-->
+    
+    <script>
+        // This part tells the button what to do
+        const btn = document.getElementById('dogBtn');
+        const container = document.getElementById('dogContainer');
 
-  <!-- 1. Use this IF you have a separate file named script.js -->
-<script src="script.js"></script>
-
-<!-- 2. Use a NEW tag for your LTA "inline" code -->
-<script>
-  fetch('http://datamall2.mytransport.sg', {
-    method: 'GET',
-    headers: {
-      'AccountKey': 'YOUR_LTA_KEY_HERE', // Replace with your real key
-      'accept': 'application/json'
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-      console.log("LTA Data Received:", data);
-      // This is where you would write code to show the data on your page
-  })
-  .catch(err => console.error("LTA Error:", err));
-</script>
+        btn.addEventListener('click', () => {
+            // We call the Dog API
+            fetch('https://dog.ceo')
+                .then(response => response.json())
+                .then(data => {
+                    // This puts the dog image inside the 'dogContainer' div
+                    container.innerHTML = `<img src="${data.message}" alt="Cute Dog">`;
+                })
+                .catch(error => console.log('Error:', error));
+        });
+    </script>
 
 </body>
 </html>
