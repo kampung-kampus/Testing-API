@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>My API Project</title>
@@ -6,31 +6,41 @@
         body { font-family: sans-serif; text-align: center; padding: 50px; }
         img { max-width: 400px; border-radius: 10px; margin-top: 20px; display: block; margin-inline: auto; }
         button { padding: 10px 20px; cursor: pointer; background: #2ea44f; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #2c974b; }
     </style>
 </head>
 <body>
 
     <h1>Daily Dog Dose</h1>
+    <p>Click the button below to fetch a random dog image from an External API!</p>
+    
     <button id="dogBtn">Get New Dog</button>
+    
     <div id="dogContainer"></div>
-    
-<!-- 1. Use this IF you have a separate file named script.js 
-<script src="script.js"></script>-->
-    
+
     <script>
-        // This part tells the button what to do
+        // Select the button and the container where the image will go
         const btn = document.getElementById('dogBtn');
         const container = document.getElementById('dogContainer');
 
         btn.addEventListener('click', () => {
-            // We call the Dog API
+            // STEP 1: Fetch data from the SPECIFIC API endpoint
             fetch('https://dog.ceo')
-                .then(response => response.json())
+                .then(response => {
+                    // Check if the server actually sent back data
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json(); 
+                })
                 .then(data => {
-                    // This puts the dog image inside the 'dogContainer' div
+                    // STEP 2: Use the 'message' from the API (which is the image URL)
+                    // and put it into an <img> tag in your HTML
                     container.innerHTML = `<img src="${data.message}" alt="Cute Dog">`;
                 })
-                .catch(error => console.log('Error:', error));
+                .catch(error => {
+                    // If something goes wrong, show it in the console
+                    console.error('There was a problem with the fetch operation:', error);
+                    container.innerHTML = `<p style="color:red">Oops! Something went wrong. Check the console.</p>`;
+                });
         });
     </script>
 
